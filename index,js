@@ -1,29 +1,40 @@
-var onlineQuiz = [
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+const onlineQuiz = [
     {
-        question:'what is capital city of Rwanda',
-        option:['musanze','kigali','kamplara','kenya'],
-        answer:'kigali'
+        question: 'What is the capital city of Rwanda?',
+        options: ['Musanze', 'Kigali', 'Kamplara', 'Kenya'],
+        answer: 'Kigali'
     },
     {
-        question:'what is the answer 6+2',
-        option:[1,4,5,7,8],
-        answer:8
+        question: 'What is the answer to 6 + 2?',
+        options: [1, 4, 5, 7, 8],
+        answer: 8
     }
+];
 
-]
 let score = 0;
 let currentQuestionIndex = 0;
 
-const displayrandomQuestion = ()=>{
+const displayRandomQuestion = () => {
     const randomIndex = Math.floor(Math.random() * onlineQuiz.length);
     const randomQuestion = onlineQuiz[randomIndex];
-    console.log(randomQuestion);
-    
-}
-displayrandomQuestion()
-function checkAnswer(answer) {
-    const currentQuestion = onlineQuiz[currentQuestionIndex];
-    if (answer === currentQuestion.correctAnswer) {
+    console.log(randomQuestion.question);
+    randomQuestion.options.forEach((option, index) => {
+        console.log(`${index + 1}. ${option}`);
+    });
+    rl.question('Enter your answer (by option number): ', (userAnswer) => {
+        checkAnswer(parseInt(userAnswer), randomQuestion.answer);
+    });
+};
+
+const checkAnswer = (userAnswer, correctAnswer) => {
+    if (userAnswer === correctAnswer || userAnswer - 1 === correctAnswer) {
         console.log("Correct!");
         score++;
     } else {
@@ -31,11 +42,15 @@ function checkAnswer(answer) {
     }
     currentQuestionIndex++;
     if (currentQuestionIndex < onlineQuiz.length) {
-        displayrandomQuestion();
+        displayRandomQuestion();
     } else {
         endQuiz();
+        rl.close();
     }
-}
-checkAnswer()
+};
 
+const endQuiz = () => {
+    console.log(`Quiz ended. Your score: ${score}/${onlineQuiz.length}`);
+};
 
+displayRandomQuestion();
