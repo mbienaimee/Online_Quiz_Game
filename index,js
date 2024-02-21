@@ -1,0 +1,41 @@
+var onlineQuiz = [
+    {
+        question:'what is capital city of Rwanda',
+        option:['musanze','kigali','kamplara','kenya'],
+        answer:'kigali'
+    },
+    {
+        question:'what is the answer 6+2',
+        option:[1,4,5,7,8],
+        answer:8
+    }
+
+]
+let score = 0;
+let currentQuestionIndex = 0;
+
+const displayrandomQuestion = ()=>{
+    const randomIndex = Math.floor(Math.random() * onlineQuiz.length);
+    const randomQuestion = onlineQuiz[randomIndex];
+    console.log(randomQuestion);
+    
+}
+displayrandomQuestion()
+function checkAnswer(answer) {
+    const currentQuestion = onlineQuiz[currentQuestionIndex];
+    if (answer === currentQuestion.correctAnswer) {
+        console.log("Correct!");
+        score++;
+    } else {
+        console.log("Incorrect!");
+    }
+    currentQuestionIndex++;
+    if (currentQuestionIndex < onlineQuiz.length) {
+        displayrandomQuestion();
+    } else {
+        endQuiz();
+    }
+}
+checkAnswer()
+
+
